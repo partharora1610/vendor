@@ -4,7 +4,7 @@ export interface IProfile extends mongoose.Document {
   basicInformation: {
     companyName: string;
     phoneNumbers: string;
-    ownerName: string;
+    ownerName?: string;
     email: string;
     website: string;
     facebook: string;
@@ -14,6 +14,7 @@ export interface IProfile extends mongoose.Document {
       address: string;
       city: string;
       state: string;
+      zip: string;
     };
 
     clientsServiced: number;
@@ -53,7 +54,7 @@ const profileSchema = new Schema<IProfile>({
     facebook: { type: String },
     instagram: { type: String },
     youtube: { type: String },
-    ownerName: { type: String, required: true },
+    ownerName: { type: String, required: false },
     clientsServiced: { type: Number, default: 0 },
     serviceLocations: { type: [String], required: true },
     allowDirectCall: { type: Boolean, default: false },

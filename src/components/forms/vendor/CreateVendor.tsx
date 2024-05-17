@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import BasicInformationForm from "./create/BasicInformation";
 import PastWorkForm from "./create/PastWork";
@@ -17,6 +18,11 @@ const CreateVendor = () => {
   const { basicInformation, pastWork, servicesOffered } = createFormStore();
 
   const submitCreateForm = async () => {
+
+    console.log("Basic Information: ", basicInformation);
+    console.log("PastWork: ", pastWork);
+    console.log("ServicesOffered: ", basicInformation);
+
     const profile = await createVendorProfile(
       JSON.stringify({
         basicInformation,
@@ -24,6 +30,7 @@ const CreateVendor = () => {
         servicesOffered,
       })
     );
+    
   };
 
   const allowSubmit =

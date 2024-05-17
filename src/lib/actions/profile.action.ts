@@ -33,27 +33,37 @@ interface createVendorProfileProps {
   servicesOffered: any;
 }
 
-export const createVendorProfile = async (params: string) => {
+export const createVendorProfile = async (params: string) => {;
   try {
     connectToDatabase();
-    const { basicInformation, servicesOffered, pastWork } = JSON.parse(params);
+    var { basicInformation, servicesOffered, pastWork } = JSON.parse(params);
+    
+    basicInformation = {
+      companyName: 'shadcn',
+      phoneNumbers: '1234567890',
+      ownerName: 'sachin',
+      email: 'email@gmail.com',
+      website: 'hello',
+      facebook: 'https://facebook.com',
+      instagram: 'https://facebook.com',
+      youtube: 'https://facebook.com',
+      location: {
+        address: 'address',
+        city: 'city',
+        state: 'state',
+        zip: '124106',
+      },
+      clientsServiced: 0,
+      serviceLocations: ['Delhi', 'Mumbai'],
+      allowDirectCall: true
+};
 
     const profile = await Profile.create({
-      basicInformation: {
-        ...basicInformation,
-        location: {
-          address: basicInformation.address,
-          city: basicInformation.city,
-          state: basicInformation.state,
-          zip: basicInformation.zip,
-        },
-      },
+      basicInformation
     });
-
-    console.log(basicInformation, servicesOffered, pastWork);
 
     return "Profile created successfully!";
   } catch (error) {
-    return error;
+    console.log("Error: ", error);
   }
 };
