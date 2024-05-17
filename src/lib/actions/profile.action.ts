@@ -1,6 +1,8 @@
 "use server";
 
 import Profile from "@/database/profile.model";
+import { connectToDatabase } from "../db";
+import User from "@/database/user.model";
 
 interface getVendorProfileProps {
   email: string;
@@ -27,61 +29,30 @@ export const getVendorProfile = async (params: getVendorProfileProps) => {
 
 interface createVendorProfileProps {
   basicInformation: any;
-  servicesOffered: any;
   pastWork: any;
+  servicesOffered: any;
 }
-/**
- * coming to the function
- * {
-  name: 'shadcn',
-  description: 'shadcn',
-  email: 'email@gmail.com',
-  phoneNumber: '1234567890',
-  website: 'hello',
-  instagram: 'https://facebook.com',
-  facebook: 'https://facebook.com'
 
-  // add youtbe ??
-} 
-// add locations
-// add aboutsection
-
-
-[
-  {
-    serviceType: '',
-    serviceDescription: '',
-    serviceImages: [],
-    approxPricing: ''
-  }
-] [
-  {
-    eventName: '',
-    eventDate: '',
-    eventLocation: '',
-    eventDescription: '',
-    guestCount: 0,
-    hostName: '',
-    hostContact: '',
-    images: []
-  }
-]
- *  
- * 
- */
-
-export const createVendorProfile = async (params: createVendorProfileProps) => {
+export const createVendorProfile = async (params: string) => {
   try {
-    const { basicInformation, servicesOffered, pastWork } = params;
-    console.log(basicInformation, servicesOffered, pastWork);
+    connectToDatabase();
+    const { basicInformation, servicesOffered, pastWork } = JSON.parse(params);
 
-    const newProfile = new Profile({
-      basicInformation,
-      services: servicesOffered,
-      pastWork,
+    const profile = await Profile.create({
+      basicInformation: {
+        ...basicInformation,
+        location: {
+          address: basicInformation.address,
+          city: basicInformation.city,
+          state: basicInformation.state,
+          zip: basicInformation.zip,
+        },
+      },
     });
 
-    return newProfile;
+    console.log(basicInformation, servicesOffered, pastWork);
+
+    return "Profile created successfully!";
   } catch (error) {
     return error;
   }

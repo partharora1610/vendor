@@ -4,30 +4,24 @@ export interface IProfile extends mongoose.Document {
   basicInformation: {
     companyName: string;
     phoneNumbers: string;
+    ownerName: string;
     email: string;
     website: string;
     facebook: string;
     instagram: string;
     youtube: string;
+    location: {
+      address: string;
+      city: string;
+      state: string;
+    };
+
+    clientsServiced: number;
+    serviceLocations: string[];
+    allowDirectCall: boolean;
   };
 
-  location: {
-    address: string;
-    city: string;
-    state: string;
-  };
-
-  clientsServiced: number;
-  serviceLocations: string[];
-  allowDirectCall: boolean;
-
-  about: {
-    ownerName?: string[];
-    companyDescription?: string;
-    images?: string[];
-  };
-
-  pastWork: [
+  pastWork?: [
     {
       eventName: string;
       eventDate: string;
@@ -40,7 +34,7 @@ export interface IProfile extends mongoose.Document {
     }
   ];
 
-  services: [
+  services?: [
     {
       serviceType: string;
       serviceDescription: string;
@@ -59,23 +53,16 @@ const profileSchema = new Schema<IProfile>({
     facebook: { type: String },
     instagram: { type: String },
     youtube: { type: String },
-  },
-
-  location: {
-    address: { type: String, required: true },
-    city: { type: String, required: true },
-    state: { type: String, required: true },
-    zip: { type: String, required: true },
-  },
-
-  clientsServiced: { type: Number, default: 0 },
-  serviceLocations: { type: [String], required: true },
-  allowDirectCall: { type: Boolean, default: false },
-
-  about: {
-    ownerName: { type: [String] },
-    companyDescription: { type: String },
-    images: { type: [String] },
+    ownerName: { type: String, required: true },
+    clientsServiced: { type: Number, default: 0 },
+    serviceLocations: { type: [String], required: true },
+    allowDirectCall: { type: Boolean, default: false },
+    location: {
+      address: { type: String, required: true },
+      city: { type: String, required: true },
+      state: { type: String, required: true },
+      zip: { type: String, required: true },
+    },
   },
 
   pastWork: [

@@ -239,6 +239,17 @@ function AddServiceForm({ add }: any) {
           </Button>
         </form>
       </Form>
+      <Button
+        className="bg-primary-500 text-white"
+        onClick={() => {
+          form.setValue("serviceType", "Photography");
+          form.setValue("serviceDescription", "Photography description");
+          form.setValue("serviceImages", ["https://via.placeholder.com/150"]);
+          form.setValue("approxPricing", "1000");
+        }}
+      >
+        Auto fill
+      </Button>
     </div>
   );
 }

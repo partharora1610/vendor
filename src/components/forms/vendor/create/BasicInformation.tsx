@@ -3,9 +3,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -38,6 +40,8 @@ const formSchema = z.object({
     message: "Invalid email address.",
   }),
 
+  ownerName: z.string().optional(),
+
   phoneNumbers: z.array(
     z.string().min(10, {
       message: "Phone number must be at least 10 characters.",
@@ -65,19 +69,29 @@ const formSchema = z.object({
         message: "Invalid URL.",
       })
       .optional(),
-    linkedin: z
-      .string()
-      .url({
-        message: "Invalid URL.",
-      })
-      .optional(),
-    twitter: z
+    youtube: z
       .string()
       .url({
         message: "Invalid URL.",
       })
       .optional(),
   }),
+
+  location: z.object({
+    address: z.string(),
+    city: z.string(),
+    state: z.string(),
+  }),
+
+  about: z.object({
+    ownerName: z.string().optional(),
+    companyDescription: z.string().optional(),
+    images: z.array(z.string()).optional(),
+  }),
+
+  clientsServiced: z.number().optional(),
+  serviceLocations: z.array(z.string()).optional(),
+  allowDirectCall: z.boolean().optional(),
 });
 
 export function ComponentForm() {
@@ -92,12 +106,25 @@ export function ComponentForm() {
       website: "",
       phoneNumbers: [],
       services: [],
+      ownerName: "",
       socialLinks: {
         facebook: "",
         instagram: "",
-        linkedin: "",
-        twitter: "",
+        youtube: "",
       },
+      location: {
+        address: "",
+        city: "",
+        state: "",
+      },
+      about: {
+        ownerName: "",
+        companyDescription: "",
+        images: [],
+      },
+      clientsServiced: 0,
+      serviceLocations: [],
+      allowDirectCall: false,
     },
   });
 
@@ -111,13 +138,20 @@ export function ComponentForm() {
       website: "hello",
       instagram: values.socialLinks.instagram,
       facebook: values.socialLinks.facebook,
+      youtube: values.socialLinks.youtube,
+      clientServiced: values.clientsServiced,
+      serviceLocations: values.serviceLocations,
+      allowDirectCall: values.allowDirectCall,
+      location: {
+        address: values.location.address,
+        city: values.location.city,
+        state: values.location.state,
+      },
     });
   }
 
-  const grid1 = `grid grid-cols-1 gap-6`;
-  const grid2 = `grid grid-cols-2 gap-6`;
   const grid3 = `grid grid-cols-3 gap-6`;
-  const grid4 = `grid grid-cols-4 gap-6`;
+  const grid2 = `grid grid-cols-2 gap-6`;
 
   return (
     <>
@@ -138,6 +172,19 @@ export function ComponentForm() {
           />
           <FormField
             control={form.control}
+            name="ownerName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Owner Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter Owner Name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="description"
             render={({ field }) => (
               <FormItem>
@@ -149,6 +196,28 @@ export function ComponentForm() {
                   />
                 </FormControl>
                 <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="allowDirectCall"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                <div className="space-y-0.5">
+                  <FormLabel>Allow Direct Contact</FormLabel>
+                  <FormDescription>
+                    Allow you customers to directly contact you, otherwise they
+                    will request callbacks
+                  </FormDescription>
+                </div>
+                <FormControl>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
               </FormItem>
             )}
           />
@@ -194,7 +263,7 @@ export function ComponentForm() {
             />
           </div>
 
-          <div className={`${grid4}`}>
+          <div className={`${grid3}`}>
             <FormField
               control={form.control}
               name="socialLinks.facebook"
@@ -223,33 +292,110 @@ export function ComponentForm() {
             />
             <FormField
               control={form.control}
-              name="socialLinks.linkedin"
+              name="socialLinks.youtube"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Linkedin</FormLabel>
                   <FormControl>
-                    <Input placeholder="Linkedin" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="socialLinks.twitter"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Twitter</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Twitter" {...field} />
+                    <Input placeholder="Youtube" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
+          <div>
+            <h2 className="text-xl font-semibold mb-6 mt-12 text-gray-500">
+              Business Location
+            </h2>
+            <div className={`${grid3}`}>
+              <FormField
+                control={form.control}
+                name="location.address"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Address</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Address" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="location.city"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>City</FormLabel>
+                    <FormControl>
+                      <Input placeholder="City" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="location.state"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>State</FormLabel>
+                    <FormControl>
+                      <Input placeholder="State" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+          <div>
+            <h2 className="text-xl font-semibold mb-6 mt-12 text-gray-500">
+              Other Details
+            </h2>
+            <div className={`${grid2}`}>
+              <FormField
+                control={form.control}
+                name="clientsServiced"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Client Served</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter Number of client served"
+                        type="number"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="clientsServiced"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Locations</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Select the regions you provide services in, for example Delhi, Mumbai, etc."
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
 
-          <Button type="submit">Submit</Button>
+          <div className="flex justify-end">
+            <Button type="submit" className="bg-primary-500 text-white">
+              Save Basic Information
+            </Button>
+          </div>
         </form>
       </Form>
       <Button
@@ -264,8 +410,13 @@ export function ComponentForm() {
           form.setValue("website", "https://shadcn.com");
           form.setValue("socialLinks.facebook", "https://facebook.com");
           form.setValue("socialLinks.instagram", "https://facebook.com");
-          form.setValue("socialLinks.linkedin", "https://facebook.com");
-          form.setValue("socialLinks.twitter", "https://facebook.com");
+          form.setValue("socialLinks.youtube", "https://facebook.com");
+          form.setValue("location.address", "address");
+          form.setValue("location.city", "city");
+          form.setValue("location.state", "state");
+          form.setValue("clientsServiced", 0);
+          form.setValue("serviceLocations", ["Delhi", "Mumbai"]);
+          form.setValue("allowDirectCall", true);
         }}
       >
         AUTO

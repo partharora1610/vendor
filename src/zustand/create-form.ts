@@ -19,6 +19,16 @@ interface BasicInformationInterface {
   website?: string;
   instagram?: string;
   facebook?: string;
+  youtube?: string;
+  clientServiced?: number;
+  serviceLocations?: string[];
+  allowDirectCall?: boolean;
+
+  location: {
+    address: string;
+    city: string;
+    state: string;
+  };
 }
 
 interface ServiceInterface {
@@ -48,6 +58,15 @@ const createFormStore = create<Store>()((set) => ({
     website: "",
     instagram: "",
     facebook: "",
+    youtube: "",
+    clientServiced: 0,
+    serviceLocations: [],
+    allowDirectCall: false,
+    location: {
+      address: "",
+      city: "",
+      state: "",
+    },
   },
 
   servicesOffered: [],

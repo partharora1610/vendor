@@ -228,7 +228,7 @@ function AddPastWorkForm({ add }: any) {
         </form>
       </Form>
 
-      {/* <Button
+      <Button
         className="bg-primary-500 text-white"
         onClick={() => {
           form.setValue("eventName", "Wedding");
@@ -242,7 +242,7 @@ function AddPastWorkForm({ add }: any) {
         }}
       >
         AUTO
-      </Button> */}
+      </Button>
     </div>
   );
 }
