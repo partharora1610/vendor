@@ -13,15 +13,7 @@ const AdminPage = async () => {
   const profile = await getVendorProfile({ email: session.user.email });
   console.log(profile);
 
-  if (!profile) {
-    redirect("/onboarding");
-  }
-
-  return (
-    <div>
-      <p>{JSON.stringify(session)}</p>
-    </div>
-  );
+  return <div className="">Home Page</div>;
 };
 
 export default AdminPage;

@@ -34,7 +34,11 @@ const formSchema = z.object({
 const RequestCallbackDialog = () => {
   return (
     <Dialog>
-      <DialogTrigger>Request Callback</DialogTrigger>
+      <DialogTrigger>
+        <Button variant="link" className="">
+          Request Callback
+        </Button>
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader className="">
           <DialogTitle className="mb-4">
@@ -124,7 +128,7 @@ const ComponentForm = () => {
           <div className="flex items-center justify-center">
             <Button
               variant="outline"
-              className="border-2 border-[#2c4c41] text-[#2c4c41] hover:bg-[#2c4c41] hover:text-white w-full text-base font-medium py-2 px-4 rounded-lg"
+              className="border-2 border-primary-400 text-primary-400 hover:bg-primary-400 hover:text-white w-full text-base font-medium py-2 px-4 rounded-lg"
               type="submit"
             >
               Submit

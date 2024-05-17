@@ -7,6 +7,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Button } from "../ui/button";
+import { Phone } from "lucide-react";
 
 interface ContactDialogProps {
   email: string;
@@ -19,7 +21,14 @@ const ContactDialog = ({ email, phoneNumber }: ContactDialogProps) => {
 
   return (
     <Dialog>
-      <DialogTrigger>Contact Details</DialogTrigger>
+      <DialogTrigger>
+        <Button variant="link" className="">
+          <span>
+            <Phone size={16} className="mr-2" />
+          </span>
+          Contact Details
+        </Button>
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader className="">
           <DialogTitle className="mb-4">Contact Detail</DialogTitle>

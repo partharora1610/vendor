@@ -3,6 +3,7 @@
 import Profile from "@/database/profile.model";
 import { connectToDatabase } from "../db";
 import User from "@/database/user.model";
+import { date } from "zod";
 
 interface getVendorProfileProps {
   email: string;
@@ -10,6 +11,7 @@ interface getVendorProfileProps {
 
 export const getAllVendors = async () => {
   try {
+    connectToDatabase();
     const vendorProfiles = await Profile.find({});
 
     return vendorProfiles;
@@ -20,6 +22,8 @@ export const getAllVendors = async () => {
 
 export const getVendorProfile = async (params: getVendorProfileProps) => {
   try {
+    connectToDatabase();
+
     return null;
   } catch (error) {
     console.log(error);
@@ -33,36 +37,41 @@ interface createVendorProfileProps {
   servicesOffered: any;
 }
 
-export const createVendorProfile = async (params: string) => {;
+export const createVendorProfile = async (params: string) => {
   try {
     connectToDatabase();
-    var { basicInformation, servicesOffered, pastWork } = JSON.parse(params);
-    
+    let { basicInformation, servicesOffered, pastWork } = JSON.parse(params);
+
+    // Need to chnage this
     basicInformation = {
-      companyName: 'shadcn',
-      phoneNumbers: '1234567890',
-      ownerName: 'sachin',
-      email: 'email@gmail.com',
-      website: 'hello',
-      facebook: 'https://facebook.com',
-      instagram: 'https://facebook.com',
-      youtube: 'https://facebook.com',
+      companyName: "shadcn",
+      phoneNumbers: "1234567890",
+      ownerName: "sachin",
+      email: "email@gmail.com",
+      website: "hello",
+      facebook: "https://facebook.com",
+      instagram: "https://facebook.com",
+      youtube: "https://facebook.com",
       location: {
-        address: 'address',
-        city: 'city',
-        state: 'state',
-        zip: '124106',
+        address: "address",
+        city: "city",
+        state: "state",
+        zip: "124106",
       },
       clientsServiced: 0,
-      serviceLocations: ['Delhi', 'Mumbai'],
-      allowDirectCall: true
-};
+      serviceLocations: ["Delhi", "Mumbai"],
+      allowDirectCall: true,
+    };
 
     const profile = await Profile.create({
-      basicInformation
+      basicInformation,
+      pastWork,
+      services: servicesOffered,
     });
 
-    return "Profile created successfully!";
+    return {
+      data: JSON.stringify(profile),
+    };
   } catch (error) {
     console.log("Error: ", error);
   }

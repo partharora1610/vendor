@@ -18,7 +18,6 @@ const CreateVendor = () => {
   const { basicInformation, pastWork, servicesOffered } = createFormStore();
 
   const submitCreateForm = async () => {
-
     console.log("Basic Information: ", basicInformation);
     console.log("PastWork: ", pastWork);
     console.log("ServicesOffered: ", basicInformation);
@@ -30,7 +29,6 @@ const CreateVendor = () => {
         servicesOffered,
       })
     );
-    
   };
 
   const allowSubmit =
@@ -59,7 +57,7 @@ const CreateVendor = () => {
             </div>
             <Button
               onClick={submitCreateForm}
-              disabled={!allowSubmit}
+              // disabled={!allowSubmit}
               className={`bg-primary-500 text-white text-lg px-8 py-6`}
             >
               Submit

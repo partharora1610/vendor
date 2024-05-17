@@ -5,6 +5,7 @@ export interface ICallback extends mongoose.Document {
   vendorProfile: Schema.Types.ObjectId;
   query?: string;
   answered: boolean;
+  archived: boolean;
   contactNumber: string;
   email?: string;
 }
@@ -14,8 +15,11 @@ const callbackSchema = new Schema<ICallback>({
   vendorProfile: { type: Schema.Types.ObjectId, required: true },
   query: { type: String },
   answered: { type: Boolean, default: false },
+  archived: { type: Boolean, default: false },
   contactNumber: { type: String, required: true },
   email: { type: String },
 });
 
 const Callback = models.Callback || mongoose.model("Callback", callbackSchema);
+
+export default Callback;

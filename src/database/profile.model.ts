@@ -31,7 +31,7 @@ export interface IProfile extends mongoose.Document {
       guestCount?: number;
       hostName?: string;
       hostContact?: string;
-      images: string[];
+      images?: string[];
     }
   ];
 
@@ -39,7 +39,7 @@ export interface IProfile extends mongoose.Document {
     {
       serviceType: string;
       serviceDescription: string;
-      serviceImages: string[];
+      serviceImages?: string[];
       approxPricing: string;
     }
   ];

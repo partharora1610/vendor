@@ -1,7 +1,7 @@
 import NextAuth from "next-auth/next";
 import { SessionStrategy } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { createUser } from "@/lib/actions/user.action";
+import { createUser, findUniqueUser } from "@/lib/actions/user.action";
 
 export const authOptions = {
   providers: [
@@ -27,17 +27,21 @@ export const authOptions = {
         session.user.id = token.sub;
       }
 
-      console.log(token);
+      const data = await findUniqueUser({
+        sub: token.sub,
+      });
 
-      try {
-        const db_user = await createUser({
+      if (data) {
+        session.userId = { ...session, userId: data._id };
+      } else {
+        // Here is some error, need to check that
+        const user = await createUser({
           name: token.name,
           email: token.email,
+          sub: token.sub,
         });
 
-        session.user.userId = db_user._id;
-      } catch (error) {
-        console.log(error);
+        session = { ...session, userId: user._id };
       }
 
       return session;
