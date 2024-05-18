@@ -11,7 +11,6 @@ const AdminPage = async () => {
   }
 
   const profile = await getVendorProfile({ email: session.user.email });
-  console.log(profile);
 
   return <div className="">Home Page</div>;
 };

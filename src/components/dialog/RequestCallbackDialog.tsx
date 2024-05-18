@@ -23,6 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Textarea } from "../ui/textarea";
+import { createRequestCallback } from "@/lib/actions/callback.action";
 
 const formSchema = z.object({
   clientName: z.string(),
@@ -64,8 +65,15 @@ const ComponentForm = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    // extract the vendor Id here use zustand pattern for tranfering daata to the dialog box
+
+    await createRequestCallback({
+      vendorId: "123",
+      query: values.message,
+      contactNumber: values.clientPhoneNumber,
+      email: values.clientEmail,
+    });
   }
 
   return (

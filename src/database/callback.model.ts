@@ -1,8 +1,7 @@
 import mongoose, { Schema, models } from "mongoose";
 
 export interface ICallback extends mongoose.Document {
-  userId: Schema.Types.ObjectId;
-  vendorProfile: Schema.Types.ObjectId;
+  vendorId: Schema.Types.ObjectId;
   query?: string;
   answered: boolean;
   archived: boolean;
@@ -11,8 +10,7 @@ export interface ICallback extends mongoose.Document {
 }
 
 const callbackSchema = new Schema<ICallback>({
-  userId: { type: Schema.Types.ObjectId, required: true },
-  vendorProfile: { type: Schema.Types.ObjectId, required: true },
+  vendorId: { type: Schema.Types.ObjectId, required: true },
   query: { type: String },
   answered: { type: Boolean, default: false },
   archived: { type: Boolean, default: false },
@@ -20,6 +18,7 @@ const callbackSchema = new Schema<ICallback>({
   email: { type: String },
 });
 
-const Callback = models.Callback || mongoose.model("Callback", callbackSchema);
+const Callback =
+  models?.Callback || mongoose.model<ICallback>("Callback", callbackSchema);
 
 export default Callback;

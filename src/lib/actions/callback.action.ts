@@ -1,3 +1,5 @@
+"use server";
+
 import Callback from "@/database/callback.model";
 import { connectToDatabase } from "../db";
 
@@ -17,7 +19,6 @@ export const getAllRequestFromProfile = async (params: getAllRequestsProps) => {
 
     return { data: requests };
   } catch (error) {
-    console.log(error);
     return { error };
   }
 };
@@ -26,7 +27,6 @@ export const getAllRequestFromProfile = async (params: getAllRequestsProps) => {
  * Create a callback request
  */
 interface createCallbackProps {
-  userId: string;
   vendorId: string;
   query: string;
   contactNumber: string;
@@ -36,20 +36,18 @@ interface createCallbackProps {
 export const createRequestCallback = async (params: createCallbackProps) => {
   try {
     connectToDatabase();
-    const { userId, vendorId, query, contactNumber, email } = params;
+    const { query, contactNumber, email, vendorId } = params;
 
     const callback = await Callback.create({
-      userId,
-      vendorProfile: vendorId,
+      vendorId,
       query,
       contactNumber,
       email,
     });
 
-    return { data: callback };
+    return true;
   } catch (error) {
-    console.log(error);
-    return { error };
+    return "error";
   }
 };
 
@@ -78,7 +76,6 @@ export const answerCallback = async (params: answeredRequestCallback) => {
       data: callback,
     };
   } catch (error) {
-    console.log(error);
     return { error };
   }
 };
@@ -109,7 +106,6 @@ export const archiveCallback = async (params: archiveRequestCallback) => {
       data: callback,
     };
   } catch (error) {
-    console.log(error);
     return { error };
   }
 };

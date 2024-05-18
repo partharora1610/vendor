@@ -21,7 +21,8 @@ export const authOptions = {
     async jwt({ token }: any) {
       return token;
     },
-    async session({ session, token }: any) {
+
+    async session({ session, token }: { session: any; token: any }) {
       if (token) {
         session.accessToken = token.accessToken;
         session.user.id = token.sub;
@@ -32,16 +33,15 @@ export const authOptions = {
       });
 
       if (data) {
-        session.userId = { ...session, userId: data._id };
+        session.user = { ...session.user, userId: data._id };
       } else {
-        // Here is some error, need to check that
         const user = await createUser({
           name: token.name,
           email: token.email,
           sub: token.sub,
         });
 
-        session = { ...session, userId: user._id };
+        session.user = { ...session.user, userId: user._id };
       }
 
       return session;

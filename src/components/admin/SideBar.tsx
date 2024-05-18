@@ -37,14 +37,7 @@ const Sidebar = () => {
           className="p-3 rounded-lg hover:bg-blue-950 hover:text-white transition duration-200 ease-in-out"
           href="/admin/queries"
         >
-          Organization
-        </Link>
-
-        <Link
-          className="p-3 rounded-lg hover:bg-blue-950 hover:text-white transition duration-200 ease-in-out"
-          href="/admin/queries"
-        >
-          Calender
+          Settings
         </Link>
       </ul>
     </div>

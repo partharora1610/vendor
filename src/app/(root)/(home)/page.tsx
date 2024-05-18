@@ -4,10 +4,18 @@ import HeroTitle from "@/components/shared/HeroTitle";
 import { Input } from "@/components/ui/input";
 import { getAllVendors } from "@/lib/actions/profile.action";
 import { getServerSession } from "next-auth";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 export default async function Home() {
   const data = await getAllVendors();
   const session = await getServerSession();
+  console.log("Session: ", session);
 
   if (!data) {
     return <div>Loading...</div>;
@@ -34,6 +42,17 @@ export default async function Home() {
             </div>
           </div>
 
+          <div>
+            <h2 className="text-3xl font-semibold text-gray-900 mb-6">
+              Popular Categories
+            </h2>
+            <p></p>
+
+            <div className="">
+              <CarouselComponent />
+            </div>
+          </div>
+
           <div className="mb-6">
             <ServiceFilter />
           </div>
@@ -47,3 +66,25 @@ export default async function Home() {
     </>
   );
 }
+
+const CategoryCard = () => {
+  return <div className="w-[170px] h-[170px] bg-pink-200 rounded-lg"></div>;
+};
+
+const CarouselComponent = () => {
+  return (
+    <Carousel className="">
+      <CarouselContent>
+        {Array.from({ length: 8 }).map((_, index) => {
+          return (
+            <CarouselItem className="basis-1/6  shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+              <CategoryCard />
+            </CarouselItem>
+          );
+        })}
+      </CarouselContent>
+      <CarouselPrevious />
+      <CarouselNext />
+    </Carousel>
+  );
+};
